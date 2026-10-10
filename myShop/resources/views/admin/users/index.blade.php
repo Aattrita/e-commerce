@@ -8,6 +8,16 @@
     </div>
 </div>
 <!-- END: Page Header Banner -->
+@if(session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+
+@if (session('failed'))
+<div class="alert alert-danger">{{ session('failed') }}</div>
+@endif
+
 
 <!-- Table Card Container -->
 <div class="table-card-custom">
@@ -72,8 +82,10 @@
                             <a href="#" class="table-btn-action" title="View details"><i class="bi bi-eye"></i></a>
                             <a href="{{route('user.edit',['id'=>$user->id])}}" class="table-btn-action"
                                 title="Edit row"><i class="bi bi-pencil"></i></a>
-                            <a href="#" class="table-btn-action delete" title="Delete row"><i
-                                    class="bi bi-trash"></i></a>
+                            <a href="#" class="table-btn-action delete-link" title="Delete row"
+                                data-url="{{ route('user.destroy', ['id' => $user->id]) }}">
+                                <i class="bi bi-trash"></i>
+                            </a>
                         </div>
                     </td>
                 </tr>
@@ -81,10 +93,48 @@
 
             </tbody>
         </table>
+
+        <!-- Div Modal for User Delete-->
+        <div id="deleteModal" class="modal-overlay">
+            <div class="modal-box">
+                <h3>Are you sure?</h3>
+                <p>This record will be deleted permanently.</p>
+
+                <form id="deleteForm" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" id="cancelDelete" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-yes">Yes, delete</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 
 
 </div>
 <!-- END: Basic Table Card Container -->
+
+<script>
+    const modal = document.getElementById('deleteModal');
+    const deleteForm = document.getElementById('deleteForm');
+    const cancelBtn = document.getElementById('cancelDelete');
+
+    // Open modal when any delete link is clicked
+    document.querySelectorAll('.delete-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();                 // stop the link from navigating
+            deleteForm.action = this.dataset.url;      // put the route (with id) into the form
+            modal.classList.add('active');      // show modal
+        });
+    });
+
+    // Close on Cancel
+    cancelBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+    // Close when clicking the dark overlay (outside the box)
+    modal.addEventListener('click', e => {
+        if (e.target === modal) modal.classList.remove('active');
+    });
+</script>
 @endsection

@@ -23,4 +23,5 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/user/create', [UserController::class, 'store'])->name('user.insert');
     Route::get('/admin/user/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::post('admin/user/edit', [UserController::class, 'update'])->name('user.update');
+    Route::DELETE('/admin/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 });

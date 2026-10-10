@@ -103,4 +103,17 @@ class UserController extends Controller
 
         return redirect()->route('users')->with('success', 'User updated successfully');
     }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id == Auth::id()) {
+            return redirect()->route('user')->with('failed', 'Login User can not Delete its account');
+        }
+        $user->delete();
+
+
+        return redirect()->route('users')->with('success', 'User deleted successfully');
+    }
 }

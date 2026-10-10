@@ -127,6 +127,13 @@
                     </div>
                     @endif
 
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
+
                     <div>
                         <label for="email" class="block text-sm font-medium text-ink mb-2">
                             Email address

@@ -21,6 +21,7 @@
 
     <!-- Main Design System & Custom Stylesheet -->
     <link rel="stylesheet" href="{{asset('adminFiles/assets/css/main.css')}}">
+    <link rel="stylesheet" href="{{asset('adminFiles/assets/css/custom.css')}}">
 </head>
 
 <body>
